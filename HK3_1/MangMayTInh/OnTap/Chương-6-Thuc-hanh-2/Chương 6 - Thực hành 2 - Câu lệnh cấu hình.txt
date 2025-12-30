@@ -1,0 +1,201 @@
+---------------Router-UTC-----------
+en
+conf t
+hostname R-UTC
+enable secret UTC@123
+exit
+wr mem
+conf t
+interface fa0/0
+ip address 116.154.209.225 255.255.255.240
+ipv6 address 24C1:D8E0:0:5::1/64
+no shut
+ex
+interface fa0/1 
+ip address 116.154.209.129 255.255.255.192
+ipv6 address 24C1:D8E0:0:3::1/64
+no shut
+ex
+interface fa1/0
+ip address 116.154.208.1 255.255.255.0
+ipv6 address 24C1:D8E0:0:1::1/64
+no shut
+exit
+interface fa1/1
+ip address 116.154.209.249 255.255.255.252
+ipv6 address 24C1:D8E0:0:7::1/64
+speed 100
+duplex full
+no shut
+exit
+---------------Router-UTC2-----------
+en
+conf t
+hostname R-UTC2
+enable secret UTC@123
+exit
+wr mem
+conf t
+interface fa0/0
+ip address 116.154.209.241 255.255.255.248
+ipv6 address 24C1:D8E0:0:6::1/64
+no shut
+ex
+interface fa0/1 
+ip address 116.154.209.193 255.255.255.224
+ipv6 address 24C1:D8E0:0:4::1/64
+no shut
+ex
+interface fa1/0
+ip address 116.154.209.1 255.255.255.128
+ipv6 address 24C1:D8E0:0:2::1/64
+no shut
+exit
+interface fa1/1
+ip address 116.154.209.250 255.255.255.252
+ipv6 address 24C1:D8E0:0:7::2/64
+speed 100
+duplex full
+no shut
+exit
+---------SW-UTC-A1-----------
+en
+conf t
+hostname SW-UTC-A1
+enable secret UTC@123
+exit
+wri mem
+en
+conf t
+vlan 10
+name UTC-Ser
+end
+conf t
+vlan 11
+name UTC-VIP
+end
+conf t
+vlan 12
+name UTC-Cla
+end
+conf t
+int range Fa 0/11, Fa 0/2, Fa 0/12
+switchport mode access
+switchport access vlan 10
+end
+conf t
+int range Fa 0/4, Fa 0/1
+switchport mode access
+switchport access vlan 11
+end
+conf t
+int Fa 0/3
+switchport mode access
+switchport access vlan 12
+end
+show vlan brief
+---------SW-UTC-A2-----------
+en
+conf t
+hostname SW-UTC-A2
+enable secret UTC@123
+exit
+wri mem
+en
+conf t
+vlan 10
+name UTC-Ser
+end
+conf t
+vlan 11
+name UTC-VIP
+end
+conf t
+vlan 12
+name UTC-Cla
+end
+conf t
+int Fa 0/1
+switchport mode access
+switchport access vlan 12
+end
+show vlan brief
+
+---------SW-UTC2-----------
+en
+conf t
+hostname SW-UTC2
+enable secret UTC@123
+exit
+wri mem
+en
+conf t
+vlan 20
+name UTC-Ser
+end
+conf t
+vlan 21
+name UTC-VIP
+end
+conf t
+vlan 22
+name UTC-Cla
+end
+conf t
+int range Fa 0/11, Fa 0/2
+switchport mode access
+switchport access vlan 20
+end
+conf t
+int range Fa 0/10, Fa 0/1
+switchport mode access
+switchport access vlan 21
+end
+conf t
+int range Fa 0/12, Fa 0/3
+switchport mode access
+switchport access vlan 22
+end
+show vlan brief
+
+-----Router DHCP----
+conf t
+ip dhcp pool UTC-DHCPv4-pool
+network 116.154.208.0 255.255.255.0
+default-router 116.154.208.1
+dns-server 116.154.209.131
+ex
+ip dhcp excluded-address 116.154.208.1 116.154.208.60
+ex
+show ip dhcp pool
+----Router DHCP v6----
+conf t
+ip dhcp pool UTC-DHCPv6-pool
+dns-server 
+ex
+interface fa 0/1
+ipv6 nd other-config-flag
+ipv6 dhcp server UTC-DHCPv6-pool
+------Trunk Sw-UTC-A1----
+en
+conf t
+int G 0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,11,12
+end
+-----Trunk Sw-UTC-A2----
+en
+conf t
+int G 0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,11,12
+end
+
+----R-UTC Route-----
+en
+ip route 0.0.0.0 0.0.0.0 116.154.209.250
+--- R-UTC2 Route---------
+en
+ip route 116.154.209.128 255.255.255.192 116.154.209.249
+ip route 116.154.209.224 255.255.255.240 116.154.209.249
+ip route 116.154.208.0 255.255.255.0 116.154.209.249

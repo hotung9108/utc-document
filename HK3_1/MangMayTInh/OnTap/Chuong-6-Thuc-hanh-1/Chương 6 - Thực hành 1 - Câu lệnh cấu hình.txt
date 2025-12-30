@@ -1,0 +1,158 @@
+---------------Router-1-----------
+en
+conf t
+hostname R-UTCLib
+enable secret UTC@123
+exit
+wr mem
+conf t
+interface fa1/0
+ip address 69.251.31.65 255.255.255.240
+ipv6 address 2018:2809:0:3::1/64
+no shut
+ex
+interface fa0/0
+ip address 69.251.31.1 255.255.255.192
+ipv6 address 2018:2809:0:5::1/64
+no shut
+ex
+interface fa0/1
+ip address 69.251.30.1 255.255.255.0
+ipv6 address 2018:2809:0:7::1/64
+no shut
+exit
+
+---------SW-A6-----------
+en
+conf t
+hostname SW-A6
+enable secret UTC@123
+exit
+wri mem
+en
+conf t
+vlan 2
+name GV-UTC
+end
+conf t
+vlan 3
+name NCS-UTC
+end
+conf t
+int Fa 0/1
+switchport mode access
+switchport access vlan 2
+end
+conf t
+int Fa 0/2
+switchport mode access
+switchport access vlan 3
+end
+show vlan brief
+---------SW-A7-----------
+en
+conf t
+vlan 2
+name GV-UTC
+end
+conf t
+vlan 3
+name NCS-UTC
+end
+conf t
+vlan 4
+name SER-UTC
+end
+conf t
+int range Fa 0/1, Fa 0/5
+switchport mode access
+switchport access vlan 2
+end
+conf t
+int range Fa 0/2, Fa 0/6
+switchport mode access
+switchport access vlan 3
+end
+conf t
+int Fa 0/7
+switchport mode access
+switchport access vlan 4
+end
+show vlan brief
+---------SW-A8-----------
+en
+conf t
+vlan 2
+name GV-UTC
+end
+conf t
+vlan 3
+name NCS-UTC
+end
+conf t
+vlan 4
+name SER-UTC
+end
+conf t
+int Fa 0/1
+switchport mode access
+switchport access vlan 2
+end
+conf t
+int Fa 0/2
+switchport mode access
+switchport access vlan 3
+end
+conf t
+int range Fa 0/3, Fa 0/4
+switchport mode access
+switchport access vlan 4
+end
+show vlan brief
+-----Router DHCP----
+conf t
+ip dhcp pool pool-GV
+network 69.251.31.0 255.255.255.192
+default-router 69.251.31.1
+dns-server 69.251.31.66
+end
+show ip dhcp pool
+------Trunk A6----
+en
+conf t
+int fa 0/3
+switchport mode trunk
+switchport trunk allowed vlan 2,3,4
+end
+-----Trunk A7----
+en
+conf t
+int fa 0/3
+switchport mode trunk
+switchport trunk allowed vlan 2,3,4
+end
+en
+conf t
+int fa 0/4
+switchport mode trunk
+switchport trunk allowed vlan 2,3,4
+end
+-----Trunk A8-----
+en
+conf t
+int fa 0/5
+switchport mode trunk
+switchport trunk allowed vlan 2,3,4
+end
+-----Ip helper-----
+en
+conf t
+int fa 0/0
+ip helper-address 69.251.31.66
+exit
+int fa 0/1
+ip helper-address 69.251.31.66
+exit
+int fa 1/0
+ip helper-address 69.251.31.66
+------

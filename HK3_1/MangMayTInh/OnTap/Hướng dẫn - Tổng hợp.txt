@@ -1,0 +1,272 @@
+***Switch-------------------------------------------------------
+enable
+conf t
+exit
+show mac address table
+show int fa0/1
+show vlan    
+show vlan brief
+show vlan id 1000
+show running-config
+Doi ten, mat khau
+hostname SW-UTC
+no host name
+enable secret UTC@123
+Cau hinh tao sua xoa vlan
+vlan 2 
+name VLAN-Test
+wri memory Luu tru lai cai da sd
+no vlan 2
+Gan cong
+interface fa0/1
+switchport mode access
+switchport access vlan 2
+interface range fastEthernet 0/10, fastEthernet 0/11
+switchport mode access
+switchport access vlan 2
+
+mac dinh
+#default interface fastethernet 0/1
+
+Cau hinh trong vlan
+interface GigabitEthernet 0/1
+switchport mode trunk
+show interfaces GigabitEthernet 0/1 status
+Cho phep cac vlan ket noi qua cong trunk nay
+interface GigabitEthernet 0/1
+description SW-Gi0/1
+switchport mode trunk
+switchport trunk allowed vlan 2,3
+Kich hoat native 
+interfaces GigabitEthernet 0/1
+switchport mode trunk
+switchport mode trunk native vlan 2 
+show interfaces fastEthernet 0/10 switchport
+
+***Router-------------------------------------------------------
+“?” = lệnh trợ giúp
+“enable” là lệnh sử dụng khi muốn chuyển từ chế độ người dùng sang chế độ đặc quyền
+“?” = lệnh trợ giúp (có thể sử dụng ở bất cứ chỗ nào)
+“conf t” hay “configure” hay “configure terminal” lệnh sử dụng khi muốn chuyển từ chế độ đặc quyền sang chế độ cấu hình
+Chú ý:
+Khi sử dụng “?”:
+• Danh sách các lệnh liên quan tới chế độ thực thi hay các tham số
+của lệnh sẽ xuất hiện
+• Nhấn “SPACE” để tiếp tục hoặc “Ctrl + Z” để thoát
+“exit” hay “end” hay nhấn tổ hợp phím “Ctrl + Z” để chuyển từ chế độ cấu hình sang chế độ đặc quyền
+“exit” hay “logout” hay “disable” để chuyển từ chế độ đặc quyền sang chế độ người dùng
+Trong chế độ người dùng:
+• show interfaces: Thông tin về các giao diện
+• show ip: Thông tin IP
+• show ipv6: Thông tin IPv6
+• show protocols: Các giao thức đang hoạt động
+• show ip route: Bảng định tuyến IPv4
+• show ip cef: Bảng chuyển mạch IPv4
+• show ipv6 route: Bảng định tuyến IPv6
+• show ipv6 cef: Bảng chuyển mạch IPv6
+Trong chế độ đặc quyền:
+• show running-config: Cấu hình hoạt động hiện tại
+Một vài lệnh cơ bản khác:
+Ở chế độ EXEC đặc quyền
+• “write memory” : Lưu cấu hình đang chạy vào bộ nhớ
+Ở bất kỳ chế độ cấu hình nào
+• "no xyz“ : Hủy một lệnh (VD. Huỷ lệnh xyz) hoặc đưa về chế độ mặc định của nó
+Chế độ cấu hình Giao diện/Cổng
+• “speed 100” Đặt tốc độ = 100Mbps
+• “duplex full” : Thiết lập chế độ song công
+• “shutdown” : Tắt giao diện
+• “no shutdown” : Bật giao diện
+Đặt tên cho Router: 
+• Để đặt tên cho thiết bị, sử dụng lênh “hostname” ở chế độ cấu hình
+• Để quay trở lại tên mặc định, sử dụng lênh ”no hostname“
+Đặt mật khẩu để truy cập chế độ EXEC:
+• Đầu tiên vào chế độ cấu hình.
+• Tiếp theo, sử dụng lệnh “enable secret ___” để tạo mật khẩu (vd, ___= UTC@123)
+Tắt tính năng chuyển đổi tên thành địa chỉ ở Router
+• Không cho phép Router chuyển các từ không quen thuộc (do lỗi chính tả) sang địa chỉ IP
+• Sử dụng lệnh “no ip domain-lookup”
+Kích hoạt chức năng “định tuyến IPv6” và “IPv6 cef” trên Router
+• Lệnh “ipv6 unicast-routing” được sử dụng để cho phép chuyển tiếp các gói IPv6 giữa các giao diện trên Router.
+• Lệnh “ipv6 cef” được sử dụng để kích hoạt IPv6 trên giao diện
+Một số lệnh thường dùng trên giao diện
+• Router#configure terminal
+• Router(config)#inter FastEthernet interface_number
+• Router(config-if)#speed 100
+• Router(config-if)#duplex full
+• Router(config-if)#ip address IPv4_Address Subnet_Mask
+• Router(config-if)#ipv6 address IPv6_Prefix
+• Router(config-if)#end
+• Router#
+Lưu ý
+• Nếu các tham số tốc độ và song công được đặt trên giao diện
+của Router, hãy đặt các tham số tương tự cho cổng của Switch
+được kết nối với Router
+Cấu hình định tuyến tĩnh cho IPv4 và IPv6
+• Router(config)#ip route Destination_prefix Destination_prefix_mask Next-hop_address
+Trong đó:
+Destination_prefix: Địa chỉ IP đích hoặc mạng đích.
+Destination_prefix_mask: Mặt nạ mạng cho địa chỉ IP đích hoặc mạng đích.
+Next-hop_address: Địa chỉ IP của router tiếp theo (next-hop) mà gói tin sẽ được chuyển tới để đến đích.
+Router(config)#ip route 192.168.2.0 255.255.255.0 10.0.0.1
+• Router(config)#ipv6 route IPv6_prefix IPv6_address_of_next-hop
+IPv6_prefix: Địa chỉ IPv6 đích hoặc mạng đích.
+IPv6_address_of_next-hop: Địa chỉ IPv6 của router tiếp theo (next-hop) mà gói tin sẽ được chuyển tới để đến đích.
+Router(config)#ipv6 route 2001:db8::/32 2001:db8::1
+Cấu hình cổng mặc định cho IPv4 và IPv6
+• Router(config)#ip route 0.0.0.0 0.0.0.0 IP_address_of_default_gateway
+Trong đó:
+0.0.0.0 0.0.0.0: Địa chỉ và mặt nạ mạng này đại diện cho "bất kỳ địa chỉ nào".
+IP_address_of_default_gateway: Địa chỉ IP của router làm cổng mặc định.
+Router(config)#ip route 0.0.0.0 0.0.0.0 192.168.1.1
+• Router(config)#ipv6 route ::/0 IPv6_address_of_default_gateway
+Trong đó:
+::/0: Địa chỉ IPv6 và mặt nạ mạng này đại diện cho "bất kỳ địa chỉ nào".
+IPv6_address_of_default_gateway: Địa chỉ IPv6 của router làm cổng mặc định.
+Router(config)#ipv6 route ::/0 2001:db8::1
+
+***DNS-------------------------------------------------------
+Cấu hình DNS-WEB_MAIL
+1.DNS
+1router 2 cổng nối switch đều .1 ::1
+2 switch:-3pc:(L1.2)(L1.3 ::3)(L1::4)
+         -4serrver:(L2 DNS v4 .6)(L2 DNS v6 :7)(HTTP .5 ::5)(MAIL .8 ::8)
+
+-Cấu hình địa chỉ ip các thiết bị đầu cuối
+-Cấu hình địa chỉ server
+-Cấu hình địa chỉ router
+Vào chế độ conf t
+interface FastEthernet 0/0
+ip address 149.56.21.1 255.255.255.0
+ipv6 address 2E3F:4A9A::1/64
+no shutdow
+exit
+interface FastEthernet 0/1
+ip address 113.20.118.1 255.255.255.0
+ipv6 address 2ABC:A4A9::1/64
+no shutdow
+exit
+Lệnh khởi động định tuyến ipv6
+ipv6 unicast-routing
+ipv6 cef
+-Triển khai dns ở L2 DNS v4 
+Ấn services add các bản ghi
+Thêm bản ghi SOA:on|Name:utc.adu.vn|Prime:ns-v4.utc.edu.vn| Mail:dnsmaster@utc.edu.vn|Min:86400|Refresh:10800|Retry:3600|Expiry:1209600
+Thêm bản ghi NS:on|Name:utc.edu.vn|Server:ns-v4.utc.edu.vn
+Thêm bản ghi A:on|Name:ns-v4.utc.edu.vn|Address:113.20.118.6
+Vào ip configuration của L2 DNS v4  chỉnh DNS server: 113.20.118.6
+Vào ip configuration của pc có ipv4 chỉnh DNS server: 113.20.118.6
+-Triển khai dns ở L2 DNS v6
+Ấn services add các bản ghi
+Thêm bản ghi SOA:on|Name:utc.adu.vn|Prime:ns-v6.utc.edu.vn| Mail:dnsmaster@utc.edu.vn|Min:86400|Refresh:10800|Retry:3600|Expiry:1209600
+Thêm bản ghi NS:on|Name:utc.edu.vn|Server:ns-v6.utc.edu.vn
+Thêm bản ghi AAA:on|Name:ns-v6.utc.edu.vn|Address:2ABC:A4:A9::7
+Vào ip configuration của L2 DNS v6  chỉnh DNS server: 2ABC:A4:A9::7
+Vào ip configuration của pc có ipv6 chỉnh DNS server: 2ABC:A4:A9::7
+-Kiểm tra
+Vào pc desktop ping
+nslookup
+ns-v4.utc.edu.vn
+-Kiểm tra cả bên v6
+
+2.WEB(HTTP): lưu trữ thông tin của trang web có tên miền là www.utc.edu.vn , mục đích làm pc truy cập vào đc
+-Cấu hình ip tĩnh cho server lưu trữ(nhận cả v4 v6).5 ::5, điền cả DNS server
+-Vào Services vào HTTP on on, sửa file index
+-Vào pc Browser test ip server: tìm 113.20.118.5(v4) 2ABC:A4A9::5(v6)
+-Ánh xạ địa chỉ ip sang tên miền: Vào Services thêm bản ghi A trong server DNS v4:Name:w.w.w.utc.edu.vn|Address:113.20.118.5
+                                  Vào Services thêm bản ghi AAA trong server DNS v6:Name:w.w.w.utc.edu.vn|Address:2ABC:A4A9::5
+-Vào pc Browser test tên miền server: tìm w.w.w.utc.edu.vn cả 2 v4 v6
+
+3.MAIL: lưu trữ server mail, có tên miền mail.utc.edu.vn
+-Cấu hình ip tĩnh cho server lưu trữ(nhận cả v4 v6).8 ::8, điền cả DNS server
+-Vào Services vào DNS on on, add A:Name:mail.utc.edu.vn|Address:113.20.118.8
+-Vào Services vào DNS on on, add AAA:Name:mail.utc.edu.vn|Address:2ABC:A4A9::8
+-Vào Services vào MAIL on on, tạo 3 tk:aaa 123|bbb 123|ccc 123
+-Vào mail ở pc đăng nhập 1 tk 1 máy: NAME-AAA|aaa@utc.edu.vn|mail.utc.edu.vn|mail.utc.edu.vn|aaa|123(máy1)
+tương tự 2 máy kia
+-Test
+
+***DHCP-------------------------------------------------------
+1. Router cung cấp dịch vụ DHCP
+-Cấu hình ip trên router và router tự động cấp phát địa chỉ cho các thiết bị
+Vào chế độ conf t:
+interface FastEthernet 0/1
+ip address 19.16.20.1 255.255.255.0
+ipv6 address 2001:DB8:1234:42::164
+no shutdow exit
+-Cấu hình DHCP trên router
+Vào chế độ conf t:
+ip dhcp excluded-address 19.16.20.1 19.16.20.30 dải cấp phát trừ dải được viết ở đây
+ip dhcp pool UTC-DHCPv4-pool đặt tên dhcp
+network 19.16.20.0 255.255.255.0 mạng
+default-router 19.16.20.1
+dns-server 194.0.1.28
+Vào thiết bị bật ip dhcp
+Ping và kiểm tra
+
+2. Server cung cấp dịch vụ DHCP
+-Cấu hình ip trên server
+101.12.31.3 255.255.255.0 101.12.31.1
+-Add dhcpv4
+on 
+serverPool
+101.12.31.1
+203.119.73.105
+101.12.31.40
+255.255.255.0
+20 
+-Add dhcpv6
+on 
+create Pool
+poolName serverPool-v6
+DNS Name 2001:DC8:1:2::105
+create ở IPv6 Address Prefix
+IPv6 20AB:6D:1:E2::   /64
+-Kiểm tra router
+Vào chế độ conf t:
+interface FastEthernet 0/1
+ip address 101.12.31.1 255.255.255.0
+ipv6 address 20AB:6D:1:E2::1/64
+no shutdow
+-Ping thử pc với pc
+-Ping router với pc
+ping 101.12.31.40
+- Gửi tin quảng bá tới toàn bộ mạng 
+ping 101.12.31.255
+3. Triển khai DHCP qua Router Relay
+-Dùng file bai2chuong3 có 3 cách(tạo topology mạng)
+-Xóa ip static  bên net2 trừ link local address
+-Tạo máy server bên net1-cấp phát ip cho các máy
+-Cấu hình ip cho máy server
+55.14.92.5
+255.255.255.0
+55.14.92.1
+203.119.73.105
+
+24BB:7A1::5  /64
+
+24BB:7A1::1
+2001:DC8:1:2::105
+-Cấu hình dhcp trên server theo mạng bên net 32
+on
+serverPool
+74.54.33.129
+202.47.142.105
+74 54 33 149
+255 255 255 128
+30
+-Cấu hình router relay trên router net2 để server cấp phát địa chỉ cho đường mạng bên này
+Cấu hình ip:(Đã cấu hình 74.54.33.129/25)
+Triển khai router relay:
+Mở router vào chế độ conf t
+interface FastEthernet 0/0
+ip helper-address 55.14.92.5
+duplex auto
+speed auto 
+no shutdow
+-Ping thử từ server sang router net2 gửi thư
+- Mở ip dhcp bên thiết bị
+
+
+
+
+

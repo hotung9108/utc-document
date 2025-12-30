@@ -1,0 +1,9 @@
+- Yêu cầu cho máy chủ OwlEdu-Manager:
+	+ Cấu hình: Không có
+	+ Phần mềm: Microsoft Visual Studio 2022 
+	+ Package: Microsoft.EntityFrameworkCore (8.0.21), Microsoft.EntityFrameworkCore.Design (8.0.21), Microsoft.EntityFramework.SqlServer (8.0.21), Microsoft.EntityFrameworkCore.Tools (8.0.21)
+	
+- Yêu cầu cho máy chủ OwlEdu-Manager-Server:
+	+ Cấu hình: file .env
+	+ Phần mềm: Microsoft Visual Studio 2022, SQL Server phiên bản 2019 đổ lên
+	+ Package: Microsoft.EntityFrameworkCore (8.0.21), Microsoft.EntityFrameworkCore.Design (8.0.21), Microsoft.EntityFramework.SqlServer (8.0.21), Microsoft.EntityFrameworkCore.Tools (8.0.21), DotNetEnv (3.1.1)

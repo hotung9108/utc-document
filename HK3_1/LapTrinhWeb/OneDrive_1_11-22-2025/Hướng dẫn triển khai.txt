@@ -1,0 +1,19 @@
+- Hướng dẫn triển khai hệ thống:
+	B1: Giải nén file source code
+	B2: Triển khai đồng thời 2 máy chủ OwlEdu-Manager, OwlEdu-Manager-Server và Database bằng SQL Server
+
+- Hướng dẫn triển khai Database:
+	Chạy file db trong SQL Server
+
+- Hướng dẫn triển khai máy chủ OwlEdu-Manager:
+	B0: Mở solution máy chủ bằng Visual Studio
+	B1: Cài đặt các package theo yêu cầu
+	B2: Build và run https cho project
+	B3: Sử dụng
+
+- Hướng dẫn triển khai máy chủ OwlEdu-Manager-Server:	
+	B0: Mở solution máy chủ bằng Visual Studio
+	B1: Cài đặt các package theo yêu cầu
+	B2: Cấu hình file .env theo yêu cầu, trong thư mục gốc của project, cùng cấp với file Program.cs
+	B3: Build và run https cho project
+	B4: Sử dụng

@@ -1,0 +1,9 @@
+- Tài khoản Admin:
+	+ Tên đăng nhập: admin01
+	+ Mật khẩu: 123456
+- Tài khoản Teacher:
+	+ Tên đăng nhập: teacher01
+	+ Mật khẩu: 123456
+- Tài khoản Student:
+	+ Tên đăng nhập: student01
+	+ Mật khẩu: 123456
